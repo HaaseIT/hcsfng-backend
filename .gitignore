@@ -1,0 +1,6 @@
+.idea
+conf
+logs
+users
+app/config/core.yml
+app/config/secrets.yml
