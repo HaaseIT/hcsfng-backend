@@ -1,6 +1,6 @@
 <?php
 
-namespace HaaseIT\HCSF;
+namespace HaaseIT\HCSFNG\Backend;
 
 
 class HardcodedText
