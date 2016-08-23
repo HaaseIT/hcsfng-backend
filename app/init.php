@@ -56,17 +56,18 @@ $container['conf'] = function ($c) {
 
 date_default_timezone_set($container['conf']["defaulttimezone"]);
 $container['lang'] = HaaseIT\HCSFNG\Backend\Helper::getLanguage($container);
+$langavailable = $container['conf']["lang_available"];
 
 if (file_exists(PATH_BASEDIR.'src/hardcodedtextcats/'.$container['lang'].'.php')) {
     $HT = require PATH_BASEDIR.'src/hardcodedtextcats/'.$container['lang'].'.php';
 } else {
-    if (file_exists(PATH_BASEDIR.'src/hardcodedtextcats/'.key($container['conf']["lang_available"]).'.php')) {
-        $HT = require PATH_BASEDIR.'src/hardcodedtextcats/'.key($container['conf']["lang_available"]).'.php';
+    if (file_exists(PATH_BASEDIR.'src/hardcodedtextcats/'.key($langavailable).'.php')) {
+        $HT = require PATH_BASEDIR.'src/hardcodedtextcats/'.key($langavailable).'.php';
     } else {
         $HT = require PATH_BASEDIR.'src/hardcodedtextcats/de.php';
     }
 }
-use \HaaseIT\HCSF\HardcodedText;
+use \HaaseIT\HCSFNG\Backend\HardcodedText;
 HardcodedText::init($HT);
 
 $container['navstruct'] = [];
@@ -102,6 +103,7 @@ if (!$container['conf']['maintenancemode']) {
     // ----------------------------------------------------------------------------
     // more init stuff
     // ----------------------------------------------------------------------------
+    /*
     $container['textcats'] = function ($c)
     {
         $langavailable = $c['conf']["lang_available"];
@@ -110,15 +112,10 @@ if (!$container['conf']['maintenancemode']) {
 
         return $textcats;
     };
+    */
 
     $container['navstruct'] = function ($c)
     {
-        $navstruct = include __DIR__.'/config/config.navi.php';
-
-        if (isset($navstruct["admin"])) {
-            unset($navstruct["admin"]);
-        }
-
         $navstruct["admin"][HardcodedText::get('admin_nav_home')] = '/_admin/index.html';
 
         if ($c['conf']["enable_module_shop"]) {
